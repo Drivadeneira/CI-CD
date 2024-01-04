@@ -4,6 +4,10 @@ pipeline {
     stages {
         stage('Build') {
             steps {
+
+                 // Install Node.js and npm
+                tool 'Node.js'
+
                 sh "npm install"
                 echo 'Installing package...'
             }
