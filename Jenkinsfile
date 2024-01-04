@@ -1,12 +1,15 @@
 pipeline {
     agent any
+    tools {
+        node.js "Node.js"
+    }
 
     stages {
         stage('Build') {
             steps {
                 script {
                     // Use the configured Node.js installation
-                    tool 'Node.js'
+                    // tool 'Node.js'
                     
                     // Your build steps here
                     sh 'npm install'
