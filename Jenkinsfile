@@ -7,13 +7,9 @@ pipeline {
                 script {
                     // Checkout code from your version control system (e.g., Git)
                     checkout scm
-
-                    // Install Node.js and npm
-                    tool 'Node.js'
-                    
+                                     
                     // Install dependencies and build your application
                     sh 'npm install'
-                    sh 'npm run build'
                 }
             }
         }
