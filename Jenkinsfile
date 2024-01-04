@@ -9,7 +9,7 @@ pipeline {
             steps {
                 script {
                     // Use the configured Node.js installation
-                    // tool 'Node.js'
+                    tool 'Node.js'
                     
                     // Your build steps here
                     sh 'npm install'
