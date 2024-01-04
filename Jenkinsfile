@@ -3,10 +3,7 @@ pipeline {
     stages {
         stage("Build"){
             steps{
-                script {
-                    // sh "npm install"
-                    echo "Succesfull Installed dependencies"
-                }
+             echo "Succesfull Installed dependencies"
             }
         } 
     }
