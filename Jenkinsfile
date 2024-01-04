@@ -4,9 +4,8 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh "pwd"
-                sh "ls"
-                echo 'Hello, World!'
+                sh "npm install"
+                echo 'Installing package...'
             }
         }
     }
