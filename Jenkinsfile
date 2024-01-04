@@ -7,15 +7,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                script {
-                    // Use the configured Node.js installation
-                    tool '21.2.0'
-                    
-                    // Your build steps here
-                    sh 'npm install'
-                    sh 'npm run build'
-                }
-            }
+                sh 'npm install'
+                sh 'npm run build'
+       
         }
     }
 }
