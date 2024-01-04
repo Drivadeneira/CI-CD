@@ -9,6 +9,7 @@ pipeline {
                     checkout scm
                                      
                     // Install dependencies and build your application
+                    ls -alh
                     sh 'npm install'
                 }
             }
