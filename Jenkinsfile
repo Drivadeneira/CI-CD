@@ -5,7 +5,7 @@ pipeline {
             steps {
                 echo "executing npm ..."
                 tool 'Node-21.2.0'
-                sh 'npm install *.json'
+                sh 'npm install'
            }
        }
     }
