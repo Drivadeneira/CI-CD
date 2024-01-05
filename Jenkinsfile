@@ -22,7 +22,7 @@ pipeline {
 
        stage('Build and Push Docker Image') {
             steps {
-                dokcer(docker-v) {
+                script {
                     sh "docker build -t test ."
                 }          
             }
