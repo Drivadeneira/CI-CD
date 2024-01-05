@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools{
+        docker 'docker-v'
+    }
+
     stages {
         stage('Build') {
             steps {
