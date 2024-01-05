@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "wich node"
+                sh "wich node"
                 echo "executing npm ..."
                 tool 'Node-21.5.0'
                 sh 'npm install'
