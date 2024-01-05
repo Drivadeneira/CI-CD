@@ -2,10 +2,12 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = 'us-east-1'
-        AWS_ACCOUNT_ID = 'AKIAXABTDDW5PWZLGC5Y'
-        ECR_REPOSITORY = 'ecs-repository-prueba'
-        DOCKER_IMAGE_TAG = 'latest'
+        AWS_ACCESS_KEY_ID     = credentials('aws-credentials-id').accessKey
+        AWS_SECRET_ACCESS_KEY = credentials('aws-credentials-id').secretKey
+        AWS_DEFAULT_REGION    = 'us-east-1'
+        ECR_REGISTRY          = '481143496122.dkr.ecr.your-aws-region.amazonaws.com'
+        IMAGE_NAME            = 'ecs-repository-prueba'
+        IMAGE_TAG             = 'latest'
     }
 
     stages {
@@ -27,14 +29,19 @@ pipeline {
            }
        }
 
-            stage('AWS ECR Login') {
+            stage('Build and Push Docker Image') {
             steps {
                 script {
-                    def ecrLoginCmd = "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
-                    sh ecrLoginCmd
-                    sh 'docker build -t ecs-repository-prueba .'
-                    sh 'docker tag ecs-repository-prueba:latest 481143496122.dkr.ecr.us-east-1.amazonaws.com/ecs-repository-prueba:latest'
-                    sh 'docker push 481143496122.dkr.ecr.us-east-1.amazonaws.com/ecs-repository-prueba:latest'
+                    // Build Docker image
+                    sh "docker build -t $ECR_REGISTRY/$IMAGE_NAME:$IMAGE_TAG ."
+
+                    // Authenticate Docker to ECR
+                    withCredentials([usernamePassword(credentialsId: 'aws-credentials-id', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                        sh "aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY"
+                    }
+
+                    // Push Docker image to ECR
+                    sh "docker push $ECR_REGISTRY/$IMAGE_NAME:$IMAGE_TAG"
                 }
             }
         }
