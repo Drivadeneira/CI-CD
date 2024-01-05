@@ -23,7 +23,7 @@ pipeline {
        stage('Build and Push Docker Image') {
             steps {
                 script {
-                    sh "docker build -t test ."
+                    sh 'docker build -t test .'
                 }          
             }
         }
