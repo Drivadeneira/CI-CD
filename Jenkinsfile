@@ -29,10 +29,10 @@ pipeline {
            }
        }
 
-            stage('Build and Push Docker Image') {
+       stage('Build and Push Docker Image') {
             steps {
 
-                docker('docker') {
+                docker('docker-v') {
                     sh "docker build -t test ."
                 }
                 // script {
