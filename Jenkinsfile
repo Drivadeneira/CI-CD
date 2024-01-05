@@ -48,6 +48,7 @@ pipeline {
                 //     // Push Docker image to ECR
                 //     sh "docker push $ECR_REGISTRY/$IMAGE_NAME:$IMAGE_TAG"
                 // }
+
             }
         }
     }
