@@ -31,10 +31,11 @@ pipeline {
 
        stage('Build and Push Docker Image') {
             steps {
-
-                docker('docker-v') {
+                script {
                     sh "docker build -t test ."
                 }
+
+            
                 // script {
                 //     // Build Docker image
                 //     // sh "docker build -t $ECR_REGISTRY/$IMAGE_NAME:$IMAGE_TAG ."
