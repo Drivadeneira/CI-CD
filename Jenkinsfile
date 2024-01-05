@@ -1,20 +1,13 @@
 pipeline {
     agent any
     stages {
-        stage('Install Dependencies') {
+        stage('Build') {
             steps {
-                script {
-                    def npmCommand = 'npm'
-                    def nodejsHome = tool 'Node-21.2.0'
-
-                    if (nodejsHome) {
-                        npmCommand = "${nodejsHome}/bin/npm"
-                    }
-
-                    sh "${npmCommand} install"
-                }
-            }
-        }
+                echo "executing npm ..."
+                tool 'Node-21.5.0'
+                sh 'npm install'
+           }
+       }
     }
 }
 
