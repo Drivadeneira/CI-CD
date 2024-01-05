@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent {dockerfile true}
 
     // environment {
     //     // AWS_ACCESS_KEY_ID     = credentials('aws-credentials').accessKey
