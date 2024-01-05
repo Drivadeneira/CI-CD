@@ -1,9 +1,17 @@
 pipeline {
     agent any
+
+    environment {
+        AWS_REGION = 'us-east-1'
+        AWS_ACCOUNT_ID = 'AKIAXABTDDW5PWZLGC5Y'
+        ECR_REPOSITORY = 'ecs-repository-prueba'
+        DOCKER_IMAGE_TAG = 'latest'
+    }
+
     stages {
         stage('Build') {
             steps {
-                echo "executing npm ..."
+                echo "executing npm  install ..."
                 nodejs('Node-21.5.0') {
                     sh 'npm install'
                 }
@@ -12,69 +20,24 @@ pipeline {
 
        stage('Test') {
             steps {
-                echo "executing npm ..."
+                echo "executing npm test ..."
                 nodejs('Node-21.5.0') {
                     sh 'npm run test'
                 }
            }
        }
+
+            stage('AWS ECR Login') {
+            steps {
+                script {
+                    def ecrLoginCmd = "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
+                    sh ecrLoginCmd
+                    sh 'docker build -t ecs-repository-prueba .'
+                    sh 'docker tag ecs-repository-prueba:latest 481143496122.dkr.ecr.us-east-1.amazonaws.com/ecs-repository-prueba:latest'
+                    sh 'docker push 481143496122.dkr.ecr.us-east-1.amazonaws.com/ecs-repository-prueba:latest'
+                }
+            }
+        }
     }
 }
   
-
-
-
-
-
-
-
-
-// pipeline {
-//     agent any
-
-//     stages {
-//         stage('Build') {
-//             steps {
-//                 script {
-//                     // Checkout code from your version control system (e.g., Git)
-//                     checkout scm
-                                     
-//                     // Install dependencies and build your application
-//                     ls 
-//                     sh 'npm install'
-//                 }
-//             }
-//         }
-
-//         stage('Test') {
-//             steps {
-//                 script {
-//                     // Run your tests here
-//                     sh 'npm test'
-//                 }
-//             }
-//         }
-
-//         // stage('Deploy') {
-//         //     steps {
-//         //         script {
-//         //             // Assuming AWS CLI is configured with necessary credentials
-
-//         //             // Authenticate Docker with Amazon ECR
-//         //             withCredentials([[$class: 'AmazonECRLogin', awsCredentialsId: 'your-aws-credentials-id', region: 'your-aws-region']]) {
-//         //                 sh 'eval $(aws ecr get-login --no-include-email --region your-aws-region)'
-//         //             }
-
-//         //             // Build Docker image
-//         //             sh 'docker build -t your-ecr-repo-url:latest .'
-
-//         //             // Tag Docker image
-//         //             sh 'docker tag your-ecr-repo-url:latest your-ecr-repo-url:latest'
-
-//         //             // Push Docker image to Amazon ECR
-//         //             sh 'docker push your-ecr-repo-url:latest'
-//         //         }
-//         //     }
-//         // }
-//     }
-// }
