@@ -11,6 +11,7 @@ pipeline {
             steps {
                 echo "executing npm ..."
                 sh "which node"
+                tool 'Node-21.5.0'
                 sh 'npm install'
             }
         }
