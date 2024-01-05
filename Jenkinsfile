@@ -1,14 +1,14 @@
 pipeline {
     agent any
 
-    environment {
-        // AWS_ACCESS_KEY_ID     = credentials('aws-credentials').accessKey
-        // AWS_SECRET_ACCESS_KEY = credentials('aws-credentials').secretKey
-        AWS_DEFAULT_REGION    = 'us-east-1'
-        ECR_REGISTRY          = '481143496122.dkr.ecr.your-aws-region.amazonaws.com'
-        IMAGE_NAME            = 'ecs-repository-prueba'
-        IMAGE_TAG             = 'latest'
-    }
+    // environment {
+    //     // AWS_ACCESS_KEY_ID     = credentials('aws-credentials').accessKey
+    //     // AWS_SECRET_ACCESS_KEY = credentials('aws-credentials').secretKey
+    //     AWS_DEFAULT_REGION    = 'us-east-1'
+    //     ECR_REGISTRY          = '481143496122.dkr.ecr.your-aws-region.amazonaws.com'
+    //     IMAGE_NAME            = 'ecs-repository-prueba'
+    //     IMAGE_TAG             = 'latest'
+    // }
 
     stages {
         stage('Build') {
@@ -33,7 +33,7 @@ pipeline {
             steps {
 
                 docker('docker') {
-                    sh "docker build -t $ECR_REGISTRY/$IMAGE_NAME:$IMAGE_TAG ."
+                    sh "docker build -t test ."
                 }
                 // script {
                 //     // Build Docker image
