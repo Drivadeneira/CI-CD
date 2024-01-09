@@ -27,7 +27,8 @@ pipeline {
                 AWS_REGION = 'us-east-1'
                 ECR_REPO_NAME = 'ecs-repository-prueba'
                 ECR_REGISTRY_ID = '481143496122'
-                DOCKER_IMAGE_TAG = "${ECR_REGISTRY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:latest"
+                IMAGEN_VERSION = 'latest'
+                DOCKER_IMAGE_TAG = "${ECR_REGISTRY_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}:${IMAGEN_VERSION}"
             }
             steps {
                 withCredentials([[$class:'AmazonWebServicesCredentialsBinding', accesKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws-credentials', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
@@ -36,7 +37,7 @@ pipeline {
                     
                     // Tag and Push the Docker image to ECR
                     sh "docker build -t ${ECR_REPO_NAME} ."
-                    sh "docker tag ${ECR_REPO_NAME}:latest ${DOCKER_IMAGE_TAG}"
+                    sh "docker tag ${ECR_REPO_NAME}:${IMAGEN_VERSION} ${DOCKER_IMAGE_TAG}"
                     sh "docker push ${DOCKER_IMAGE_TAG}"
                 }
             }
